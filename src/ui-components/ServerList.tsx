@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Card, Container, Row, Col } from 'react-bootstrap';
 import type { Schema } from "../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
@@ -14,12 +14,8 @@ const ServerList = () => {
       });
     }, []);
   
-    function createServer() {
-      client.models.Server.create({ });
-    }
-  
-    function deleteServer(id: string) {
-      client.models.Server.delete({ id })
+    function createServer(serverDetails: {}) {
+      client.models.Server.create(serverDetails);
     }
 
     const addServer = async () => {
@@ -29,7 +25,7 @@ const ServerList = () => {
             status: 'Running'
         };
         try {
-            createServer()
+            createServer(serverDetails)
         } catch (error) {
             console.error('Error adding server', error);
         }

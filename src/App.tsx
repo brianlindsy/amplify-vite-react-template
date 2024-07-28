@@ -6,12 +6,11 @@ import ServerList from './ui-components/ServerList';
 function App() {
 
   return (
-        
     <Authenticator>
-    {({ user, signOut  }) => (
+    {() => (
       <>
-      <MainNavbar user={user} signOut={signOut} />
-      <ServerList />
+        <MainNavbar />
+        <ServerList />
       </>
       )}
       </Authenticator>
