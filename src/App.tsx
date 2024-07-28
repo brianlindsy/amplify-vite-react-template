@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react'
+import { Flex, Text, Divider } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
 
 const client = generateClient<Schema>();
@@ -23,6 +24,14 @@ function App() {
     client.models.Todo.delete({ id })
   }
 
+  const Divider = () => (
+    <Flex direction="column">
+      <Text>Before</Text>
+      <Divider />
+      <Text>After</Text>
+    </Flex>
+  );
+
   return (
         
     <Authenticator>
@@ -30,6 +39,7 @@ function App() {
     <main>
       <h1>{user?.signInDetails?.loginId}'s todos</h1>
       <button onClick={signOut}>Sign out</button>
+      <Divider/>
       <h1>My todos</h1>
       <button onClick={createTodo}>+ new</button>
       <ul>
