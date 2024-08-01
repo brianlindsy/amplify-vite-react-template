@@ -1,4 +1,5 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { handleEc2 } from "../functions/handleEc2/resource";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -19,7 +20,7 @@ const schema = a.schema({
       ec2Id: a.string(),
       status: a.string(),
     })
-  .authorization(allow => [allow.owner()]),
+  .authorization(allow => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;

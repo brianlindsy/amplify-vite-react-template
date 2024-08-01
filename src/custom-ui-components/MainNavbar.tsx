@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { Text } from '@aws-amplify/ui-react'
 import { Button } from '@aws-amplify/ui-react';
-import { signOut, getCurrentUser } from "aws-amplify/auth";
+import { getCurrentUser, signOut } from "aws-amplify/auth";
 import { useEffect, useState } from 'react';
   
   const MainNavbar = () => {
@@ -10,8 +10,9 @@ import { useEffect, useState } from 'react';
 
     useEffect(() => {
         async function getUser() {
-            const { username } = await getCurrentUser();
-            setUserName(username)
+            const { signInDetails } = await getCurrentUser();
+            const email = signInDetails?.loginId! as string
+            setUserName(email)
         }
         getUser()
     }, []);
@@ -22,7 +23,7 @@ import { useEffect, useState } from 'react';
           <Navbar.Brand href="#home">ChinoTech Sandboxes</Navbar.Brand>
           <div className="d-flex align-items-center">
             <Text className="me-3">{userName}</Text>
-            <Button onClick={() => signOut}>Sign out</Button>
+            <Button onClick={() => signOut()}>Sign out</Button>
           </div>
         </Container>
       </Navbar>

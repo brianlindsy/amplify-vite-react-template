@@ -1,7 +1,6 @@
 import { Authenticator } from '@aws-amplify/ui-react'
-import MainNavbar from "./ui-components/MainNavbar";
-import '@aws-amplify/ui-react/styles.css';
-import ServerList from './ui-components/ServerList';
+import MainNavbar from "./custom-ui-components/MainNavbar";
+import ServerList from './custom-ui-components/ServerList';
 
 function App() {
 
