@@ -15,9 +15,9 @@ const RouteToServer = () => {
     const server = client.models.Server.get({id: id as string})
 
     server.then((serverResponse) => {
-        fetch("http://" + serverResponse.data?.publicIP + ":8080/fhir").then((fhirServerRawResponse) => {
+        fetch("http://" + serverResponse.data?.publicIP + ":8080/fhir/metadata").then((fhirServerRawResponse) => {
             console.log(fhirServerRawResponse)
-            fhirServerRawResponse.text().then((textResponse) => {
+            fhirServerRawResponse.json().then((textResponse) => {
                 setResponse(textResponse)
             })
         })
@@ -27,7 +27,7 @@ const RouteToServer = () => {
 
   return (
     <>
-      {response}
+      {JSON.stringify(response)}
     </>
   );
 };
