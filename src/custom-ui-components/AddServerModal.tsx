@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import ServerCreateForm from '../../ui-components/ServerCreateForm';
 
-interface AddServerModalProps {
+  interface AddServerModalProps {
     show: boolean;
     handleClose: () => void;
     userEmail: string;

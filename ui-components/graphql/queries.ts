@@ -9,11 +9,12 @@ export const getServer = /* GraphQL */ `
       configuration
       createdAt
       description
-      ec2Id
+      ecsTaskName
       encoding
       id
       name
       owner
+      publicIP
       status
       updatedAt
       userEmail
@@ -34,11 +35,12 @@ export const listServers = /* GraphQL */ `
         configuration
         createdAt
         description
-        ec2Id
+        ecsTaskName
         encoding
         id
         name
         owner
+        publicIP
         status
         updatedAt
         userEmail

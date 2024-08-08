@@ -26,18 +26,20 @@ export default function ServerCreateForm(props) {
   const initialValues = {
     configuration: "",
     baseUrl: "",
+    publicIP: "",
     encoding: "",
     version: "",
     userEmail: "",
     name: "",
     description: "",
-    ec2Id: "",
+    ecsTaskName: "",
     status: "",
   };
   const [configuration, setConfiguration] = React.useState(
     initialValues.configuration
   );
   const [baseUrl, setBaseUrl] = React.useState(initialValues.baseUrl);
+  const [publicIP, setPublicIP] = React.useState(initialValues.publicIP);
   const [encoding, setEncoding] = React.useState(initialValues.encoding);
   const [version, setVersion] = React.useState(initialValues.version);
   const [userEmail, setUserEmail] = React.useState(initialValues.userEmail);
@@ -45,30 +47,34 @@ export default function ServerCreateForm(props) {
   const [description, setDescription] = React.useState(
     initialValues.description
   );
-  const [ec2Id, setEc2Id] = React.useState(initialValues.ec2Id);
+  const [ecsTaskName, setEcsTaskName] = React.useState(
+    initialValues.ecsTaskName
+  );
   const [status, setStatus] = React.useState(initialValues.status);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setConfiguration(initialValues.configuration);
     setBaseUrl(initialValues.baseUrl);
+    setPublicIP(initialValues.publicIP);
     setEncoding(initialValues.encoding);
     setVersion(initialValues.version);
     setUserEmail(initialValues.userEmail);
     setName(initialValues.name);
     setDescription(initialValues.description);
-    setEc2Id(initialValues.ec2Id);
+    setEcsTaskName(initialValues.ecsTaskName);
     setStatus(initialValues.status);
     setErrors({});
   };
   const validations = {
     configuration: [{ type: "JSON" }],
     baseUrl: [],
-    encoding: [],
-    version: [],
-    userEmail: [{ type: "Email" }],
-    name: [],
+    publicIP: [],
+    encoding: [{ type: "Required" }],
+    version: [{ type: "Required" }],
+    userEmail: [{ type: "Required" }, { type: "Email" }],
+    name: [{ type: "Required" }],
     description: [],
-    ec2Id: [],
+    ecsTaskName: [],
     status: [],
   };
   const runValidationTasks = async (
@@ -99,12 +105,13 @@ export default function ServerCreateForm(props) {
         let modelFields = {
           configuration,
           baseUrl,
+          publicIP,
           encoding,
           version,
           userEmail,
           name,
           description,
-          ec2Id,
+          ecsTaskName,
           status,
         };
         const validationResponses = await Promise.all(
@@ -169,12 +176,13 @@ export default function ServerCreateForm(props) {
             const modelFields = {
               configuration: value,
               baseUrl,
+              publicIP,
               encoding,
               version,
               userEmail,
               name,
               description,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -201,12 +209,13 @@ export default function ServerCreateForm(props) {
             const modelFields = {
               configuration,
               baseUrl: value,
+              publicIP,
               encoding,
               version,
               userEmail,
               name,
               description,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -223,8 +232,41 @@ export default function ServerCreateForm(props) {
         {...getOverrideProps(overrides, "baseUrl")}
       ></TextField>
       <TextField
-        label="Encoding"
+        label="Public ip"
         isRequired={false}
+        isReadOnly={false}
+        value={publicIP}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              configuration,
+              baseUrl,
+              publicIP: value,
+              encoding,
+              version,
+              userEmail,
+              name,
+              description,
+              ecsTaskName,
+              status,
+            };
+            const result = onChange(modelFields);
+            value = result?.publicIP ?? value;
+          }
+          if (errors.publicIP?.hasError) {
+            runValidationTasks("publicIP", value);
+          }
+          setPublicIP(value);
+        }}
+        onBlur={() => runValidationTasks("publicIP", publicIP)}
+        errorMessage={errors.publicIP?.errorMessage}
+        hasError={errors.publicIP?.hasError}
+        {...getOverrideProps(overrides, "publicIP")}
+      ></TextField>
+      <TextField
+        label="Encoding"
+        isRequired={true}
         isReadOnly={false}
         value={encoding}
         onChange={(e) => {
@@ -233,12 +275,13 @@ export default function ServerCreateForm(props) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding: value,
               version,
               userEmail,
               name,
               description,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -256,7 +299,7 @@ export default function ServerCreateForm(props) {
       ></TextField>
       <TextField
         label="Version"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={version}
         onChange={(e) => {
@@ -265,12 +308,13 @@ export default function ServerCreateForm(props) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding,
               version: value,
               userEmail,
               name,
               description,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -288,7 +332,7 @@ export default function ServerCreateForm(props) {
       ></TextField>
       <TextField
         label="User email"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={userEmail}
         onChange={(e) => {
@@ -297,12 +341,13 @@ export default function ServerCreateForm(props) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding,
               version,
               userEmail: value,
               name,
               description,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -320,7 +365,7 @@ export default function ServerCreateForm(props) {
       ></TextField>
       <TextField
         label="Name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
@@ -329,12 +374,13 @@ export default function ServerCreateForm(props) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding,
               version,
               userEmail,
               name: value,
               description,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -361,12 +407,13 @@ export default function ServerCreateForm(props) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding,
               version,
               userEmail,
               name,
               description: value,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -383,36 +430,37 @@ export default function ServerCreateForm(props) {
         {...getOverrideProps(overrides, "description")}
       ></TextField>
       <TextField
-        label="Ec2 id"
+        label="Ecs task name"
         isRequired={false}
         isReadOnly={false}
-        value={ec2Id}
+        value={ecsTaskName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding,
               version,
               userEmail,
               name,
               description,
-              ec2Id: value,
+              ecsTaskName: value,
               status,
             };
             const result = onChange(modelFields);
-            value = result?.ec2Id ?? value;
+            value = result?.ecsTaskName ?? value;
           }
-          if (errors.ec2Id?.hasError) {
-            runValidationTasks("ec2Id", value);
+          if (errors.ecsTaskName?.hasError) {
+            runValidationTasks("ecsTaskName", value);
           }
-          setEc2Id(value);
+          setEcsTaskName(value);
         }}
-        onBlur={() => runValidationTasks("ec2Id", ec2Id)}
-        errorMessage={errors.ec2Id?.errorMessage}
-        hasError={errors.ec2Id?.hasError}
-        {...getOverrideProps(overrides, "ec2Id")}
+        onBlur={() => runValidationTasks("ecsTaskName", ecsTaskName)}
+        errorMessage={errors.ecsTaskName?.errorMessage}
+        hasError={errors.ecsTaskName?.hasError}
+        {...getOverrideProps(overrides, "ecsTaskName")}
       ></TextField>
       <TextField
         label="Status"
@@ -425,12 +473,13 @@ export default function ServerCreateForm(props) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding,
               version,
               userEmail,
               name,
               description,
-              ec2Id,
+              ecsTaskName,
               status: value,
             };
             const result = onChange(modelFields);

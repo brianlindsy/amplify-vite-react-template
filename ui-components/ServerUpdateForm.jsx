@@ -28,18 +28,20 @@ export default function ServerUpdateForm(props) {
   const initialValues = {
     configuration: "",
     baseUrl: "",
+    publicIP: "",
     encoding: "",
     version: "",
     userEmail: "",
     name: "",
     description: "",
-    ec2Id: "",
+    ecsTaskName: "",
     status: "",
   };
   const [configuration, setConfiguration] = React.useState(
     initialValues.configuration
   );
   const [baseUrl, setBaseUrl] = React.useState(initialValues.baseUrl);
+  const [publicIP, setPublicIP] = React.useState(initialValues.publicIP);
   const [encoding, setEncoding] = React.useState(initialValues.encoding);
   const [version, setVersion] = React.useState(initialValues.version);
   const [userEmail, setUserEmail] = React.useState(initialValues.userEmail);
@@ -47,7 +49,9 @@ export default function ServerUpdateForm(props) {
   const [description, setDescription] = React.useState(
     initialValues.description
   );
-  const [ec2Id, setEc2Id] = React.useState(initialValues.ec2Id);
+  const [ecsTaskName, setEcsTaskName] = React.useState(
+    initialValues.ecsTaskName
+  );
   const [status, setStatus] = React.useState(initialValues.status);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -61,12 +65,13 @@ export default function ServerUpdateForm(props) {
         : JSON.stringify(cleanValues.configuration)
     );
     setBaseUrl(cleanValues.baseUrl);
+    setPublicIP(cleanValues.publicIP);
     setEncoding(cleanValues.encoding);
     setVersion(cleanValues.version);
     setUserEmail(cleanValues.userEmail);
     setName(cleanValues.name);
     setDescription(cleanValues.description);
-    setEc2Id(cleanValues.ec2Id);
+    setEcsTaskName(cleanValues.ecsTaskName);
     setStatus(cleanValues.status);
     setErrors({});
   };
@@ -89,12 +94,13 @@ export default function ServerUpdateForm(props) {
   const validations = {
     configuration: [{ type: "JSON" }],
     baseUrl: [],
-    encoding: [],
-    version: [],
-    userEmail: [{ type: "Email" }],
-    name: [],
+    publicIP: [],
+    encoding: [{ type: "Required" }],
+    version: [{ type: "Required" }],
+    userEmail: [{ type: "Required" }, { type: "Email" }],
+    name: [{ type: "Required" }],
     description: [],
-    ec2Id: [],
+    ecsTaskName: [],
     status: [],
   };
   const runValidationTasks = async (
@@ -125,12 +131,13 @@ export default function ServerUpdateForm(props) {
         let modelFields = {
           configuration: configuration ?? null,
           baseUrl: baseUrl ?? null,
-          encoding: encoding ?? null,
-          version: version ?? null,
-          userEmail: userEmail ?? null,
-          name: name ?? null,
+          publicIP: publicIP ?? null,
+          encoding,
+          version,
+          userEmail,
+          name,
           description: description ?? null,
-          ec2Id: ec2Id ?? null,
+          ecsTaskName: ecsTaskName ?? null,
           status: status ?? null,
         };
         const validationResponses = await Promise.all(
@@ -194,12 +201,13 @@ export default function ServerUpdateForm(props) {
             const modelFields = {
               configuration: value,
               baseUrl,
+              publicIP,
               encoding,
               version,
               userEmail,
               name,
               description,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -226,12 +234,13 @@ export default function ServerUpdateForm(props) {
             const modelFields = {
               configuration,
               baseUrl: value,
+              publicIP,
               encoding,
               version,
               userEmail,
               name,
               description,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -248,8 +257,41 @@ export default function ServerUpdateForm(props) {
         {...getOverrideProps(overrides, "baseUrl")}
       ></TextField>
       <TextField
-        label="Encoding"
+        label="Public ip"
         isRequired={false}
+        isReadOnly={false}
+        value={publicIP}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              configuration,
+              baseUrl,
+              publicIP: value,
+              encoding,
+              version,
+              userEmail,
+              name,
+              description,
+              ecsTaskName,
+              status,
+            };
+            const result = onChange(modelFields);
+            value = result?.publicIP ?? value;
+          }
+          if (errors.publicIP?.hasError) {
+            runValidationTasks("publicIP", value);
+          }
+          setPublicIP(value);
+        }}
+        onBlur={() => runValidationTasks("publicIP", publicIP)}
+        errorMessage={errors.publicIP?.errorMessage}
+        hasError={errors.publicIP?.hasError}
+        {...getOverrideProps(overrides, "publicIP")}
+      ></TextField>
+      <TextField
+        label="Encoding"
+        isRequired={true}
         isReadOnly={false}
         value={encoding}
         onChange={(e) => {
@@ -258,12 +300,13 @@ export default function ServerUpdateForm(props) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding: value,
               version,
               userEmail,
               name,
               description,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -281,7 +324,7 @@ export default function ServerUpdateForm(props) {
       ></TextField>
       <TextField
         label="Version"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={version}
         onChange={(e) => {
@@ -290,12 +333,13 @@ export default function ServerUpdateForm(props) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding,
               version: value,
               userEmail,
               name,
               description,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -313,7 +357,7 @@ export default function ServerUpdateForm(props) {
       ></TextField>
       <TextField
         label="User email"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={userEmail}
         onChange={(e) => {
@@ -322,12 +366,13 @@ export default function ServerUpdateForm(props) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding,
               version,
               userEmail: value,
               name,
               description,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -345,7 +390,7 @@ export default function ServerUpdateForm(props) {
       ></TextField>
       <TextField
         label="Name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
@@ -354,12 +399,13 @@ export default function ServerUpdateForm(props) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding,
               version,
               userEmail,
               name: value,
               description,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -386,12 +432,13 @@ export default function ServerUpdateForm(props) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding,
               version,
               userEmail,
               name,
               description: value,
-              ec2Id,
+              ecsTaskName,
               status,
             };
             const result = onChange(modelFields);
@@ -408,36 +455,37 @@ export default function ServerUpdateForm(props) {
         {...getOverrideProps(overrides, "description")}
       ></TextField>
       <TextField
-        label="Ec2 id"
+        label="Ecs task name"
         isRequired={false}
         isReadOnly={false}
-        value={ec2Id}
+        value={ecsTaskName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding,
               version,
               userEmail,
               name,
               description,
-              ec2Id: value,
+              ecsTaskName: value,
               status,
             };
             const result = onChange(modelFields);
-            value = result?.ec2Id ?? value;
+            value = result?.ecsTaskName ?? value;
           }
-          if (errors.ec2Id?.hasError) {
-            runValidationTasks("ec2Id", value);
+          if (errors.ecsTaskName?.hasError) {
+            runValidationTasks("ecsTaskName", value);
           }
-          setEc2Id(value);
+          setEcsTaskName(value);
         }}
-        onBlur={() => runValidationTasks("ec2Id", ec2Id)}
-        errorMessage={errors.ec2Id?.errorMessage}
-        hasError={errors.ec2Id?.hasError}
-        {...getOverrideProps(overrides, "ec2Id")}
+        onBlur={() => runValidationTasks("ecsTaskName", ecsTaskName)}
+        errorMessage={errors.ecsTaskName?.errorMessage}
+        hasError={errors.ecsTaskName?.hasError}
+        {...getOverrideProps(overrides, "ecsTaskName")}
       ></TextField>
       <TextField
         label="Status"
@@ -450,12 +498,13 @@ export default function ServerUpdateForm(props) {
             const modelFields = {
               configuration,
               baseUrl,
+              publicIP,
               encoding,
               version,
               userEmail,
               name,
               description,
-              ec2Id,
+              ecsTaskName,
               status: value,
             };
             const result = onChange(modelFields);

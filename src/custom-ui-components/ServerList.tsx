@@ -4,6 +4,7 @@ import type { Schema } from "../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import AddServerModal from './AddServerModal';
 import { getCurrentUser } from 'aws-amplify/auth';
+import ServerDetails from './ServerDetails';
 
 const client = generateClient<Schema>();
 
@@ -11,6 +12,7 @@ const ServerList = () => {
     const [servers, setServers] = useState<Array<Schema["Server"]["type"]>>([]);
     const [show, setShow] = useState(false);
     const [userEmail, setUserEmail] = useState("");
+    const [showingServerDetails, setShowingServerDetails] = useState(false)
 
     useEffect(() => {
         async function getUser() {
@@ -34,14 +36,26 @@ const ServerList = () => {
       client.models.Server.delete({id})
     };
 
+    const handleServerClick = () => {
+      setShowingServerDetails(true)
+    };
+
     const addServer = () => {
         handleOpen()
     };
 
+    const handleBackFromServer = () => {
+      setShowingServerDetails(false)
+    }
+
   return (
     <Container style={{padding: "10px"}}>
-      <Button onClick={addServer}>Add New Server</Button>
+      {servers.length === 0 ?
+        <Button onClick={addServer}>Add New Server</Button> : null
+      }
       <Container style={{padding: "10px"}}>
+          {!showingServerDetails ?
+          <>
           <AddServerModal show={show} handleClose={() => handleClose()} userEmail={userEmail}/>
           <Row>
             {servers.map((server) => (
@@ -52,12 +66,14 @@ const ServerList = () => {
                     <Card.Text>{server.description}</Card.Text>
                     <Card.Text>{server.status}</Card.Text>
                     <Card.Text>{server.baseUrl}</Card.Text>
-                    <Button onClick={() => handleDelete(server.id)}>Delete</Button>
+                    <Button onClick={() => handleServerClick()}>Details</Button>
                   </Card.Body>
                 </Card>
               </Col>
             ))}
           </Row>
+          </>
+          : <ServerDetails handleBackFromServer={handleBackFromServer} handleDelete={() => handleDelete(servers[0].id)} server={servers[0]} /> }
       </Container>
     </Container>
   );

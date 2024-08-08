@@ -12,11 +12,12 @@ export const onCreateServer = /* GraphQL */ `
       configuration
       createdAt
       description
-      ec2Id
+      ecsTaskName
       encoding
       id
       name
       owner
+      publicIP
       status
       updatedAt
       userEmail
@@ -35,11 +36,12 @@ export const onDeleteServer = /* GraphQL */ `
       configuration
       createdAt
       description
-      ec2Id
+      ecsTaskName
       encoding
       id
       name
       owner
+      publicIP
       status
       updatedAt
       userEmail
@@ -58,11 +60,12 @@ export const onUpdateServer = /* GraphQL */ `
       configuration
       createdAt
       description
-      ec2Id
+      ecsTaskName
       encoding
       id
       name
       owner
+      publicIP
       status
       updatedAt
       userEmail

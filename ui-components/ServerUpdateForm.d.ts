@@ -19,23 +19,25 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type ServerUpdateFormInputValues = {
     configuration?: string;
     baseUrl?: string;
+    publicIP?: string;
     encoding?: string;
     version?: string;
     userEmail?: string;
     name?: string;
     description?: string;
-    ec2Id?: string;
+    ecsTaskName?: string;
     status?: string;
 };
 export declare type ServerUpdateFormValidationValues = {
     configuration?: ValidationFunction<string>;
     baseUrl?: ValidationFunction<string>;
+    publicIP?: ValidationFunction<string>;
     encoding?: ValidationFunction<string>;
     version?: ValidationFunction<string>;
     userEmail?: ValidationFunction<string>;
     name?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
-    ec2Id?: ValidationFunction<string>;
+    ecsTaskName?: ValidationFunction<string>;
     status?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -43,12 +45,13 @@ export declare type ServerUpdateFormOverridesProps = {
     ServerUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     configuration?: PrimitiveOverrideProps<TextAreaFieldProps>;
     baseUrl?: PrimitiveOverrideProps<TextFieldProps>;
+    publicIP?: PrimitiveOverrideProps<TextFieldProps>;
     encoding?: PrimitiveOverrideProps<TextFieldProps>;
     version?: PrimitiveOverrideProps<TextFieldProps>;
     userEmail?: PrimitiveOverrideProps<TextFieldProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
-    ec2Id?: PrimitiveOverrideProps<TextFieldProps>;
+    ecsTaskName?: PrimitiveOverrideProps<TextFieldProps>;
     status?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ServerUpdateFormProps = React.PropsWithChildren<{
