@@ -41,7 +41,7 @@ const ServerDetails: React.FC<ServerDetailsProps> = ({ server, handleBackFromSer
                 <Button onClick={handleDelete}>Delete</Button>
             </Container>
             <div style={styles.detail}>
-                <strong>Base URL:</strong> {"app.chinotechnologies.com/" + convertToUrl(server.name)}
+                <strong>Base URL:</strong> {"localhost:5173/server/" + server.id}
             </div>
             <div style={styles.detail}>
                 <strong>Encoding:</strong> {server.encoding}
