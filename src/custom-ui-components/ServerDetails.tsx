@@ -11,13 +11,11 @@ interface ServerDetailsProps {
 
 const ServerDetails: React.FC<ServerDetailsProps> = ({ server, handleBackFromServer, handleDelete }) => {
 
-    const convertToUrl = (toConvert: string) => {
-        return toConvert.toLowerCase().replace(" ", "-")
-    }
+    const serverUrl = "https://api.chinotechnologies.com/server/" + server.id + "/metadata?_format=json";
 
     const checkStatus = async () => {
         var statusText = ""
-        await fetch(server.publicIP + ":8080/fhir/metadata?_format=json")
+        await fetch(serverUrl)
         .then((response) => {
             statusText = response.statusText;
         })
@@ -41,7 +39,7 @@ const ServerDetails: React.FC<ServerDetailsProps> = ({ server, handleBackFromSer
                 <Button onClick={handleDelete}>Delete</Button>
             </Container>
             <div style={styles.detail}>
-                <strong>Base URL:</strong> {"localhost:5173/server/" + server.id}
+                <strong>Base URL:</strong> <a target="_blank" rel="noopener noreferrer" href={serverUrl}>{serverUrl}</a>
             </div>
             <div style={styles.detail}>
                 <strong>Encoding:</strong> {server.encoding}
