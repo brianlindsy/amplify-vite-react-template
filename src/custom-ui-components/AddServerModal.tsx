@@ -17,7 +17,28 @@ import ServerCreateForm from '../../ui-components/ServerCreateForm';
           </Modal.Header>
 
           <Modal.Body>
-            <ServerCreateForm onSuccess={handleClose} />
+            <ServerCreateForm overrides={{
+              baseUrl: {
+                style: { display: 'none' },
+                labelHidden: true
+              },
+              publicIP: {
+                style: { display: 'none' },
+                labelHidden: true
+              },
+              ecsTaskName: {
+                style: { display: 'none' },
+                labelHidden: true
+              },
+              status: {
+                style: { display: 'none' },
+                labelHidden: true
+              },
+              configuration: {
+                style: { display: 'none' },
+                labelHidden: true
+              }
+            }} onSuccess={handleClose} />
           </Modal.Body>
 
           <Modal.Footer>

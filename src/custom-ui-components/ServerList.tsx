@@ -34,6 +34,7 @@ const ServerList = () => {
 
     const handleDelete = (id: any) => {
       client.models.Server.delete({id})
+      setShowingServerDetails(false)
     };
 
     const handleServerClick = () => {
@@ -63,9 +64,6 @@ const ServerList = () => {
                 <Card>
                   <Card.Body>
                     <Card.Title>{server.name}</Card.Title>
-                    <Card.Text>{server.description}</Card.Text>
-                    <Card.Text>{server.status}</Card.Text>
-                    <Card.Text>{server.baseUrl}</Card.Text>
                     <Button onClick={() => handleServerClick()}>Details</Button>
                   </Card.Body>
                 </Card>
