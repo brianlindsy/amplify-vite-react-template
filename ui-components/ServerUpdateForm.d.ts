@@ -22,6 +22,8 @@ export declare type ServerUpdateFormInputValues = {
     publicIP?: string;
     encoding?: string;
     version?: string;
+    implementationGuide?: string;
+    implementationGuideVersion?: string;
     userEmail?: string;
     name?: string;
     description?: string;
@@ -34,6 +36,8 @@ export declare type ServerUpdateFormValidationValues = {
     publicIP?: ValidationFunction<string>;
     encoding?: ValidationFunction<string>;
     version?: ValidationFunction<string>;
+    implementationGuide?: ValidationFunction<string>;
+    implementationGuideVersion?: ValidationFunction<string>;
     userEmail?: ValidationFunction<string>;
     name?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
@@ -48,6 +52,8 @@ export declare type ServerUpdateFormOverridesProps = {
     publicIP?: PrimitiveOverrideProps<TextFieldProps>;
     encoding?: PrimitiveOverrideProps<TextFieldProps>;
     version?: PrimitiveOverrideProps<TextFieldProps>;
+    implementationGuide?: PrimitiveOverrideProps<TextFieldProps>;
+    implementationGuideVersion?: PrimitiveOverrideProps<TextFieldProps>;
     userEmail?: PrimitiveOverrideProps<TextFieldProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;

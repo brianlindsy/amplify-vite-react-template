@@ -15,6 +15,8 @@ export const onCreateServer = /* GraphQL */ `
       ecsTaskName
       encoding
       id
+      implementationGuide
+      implementationGuideVersion
       name
       owner
       publicIP
@@ -39,6 +41,8 @@ export const onDeleteServer = /* GraphQL */ `
       ecsTaskName
       encoding
       id
+      implementationGuide
+      implementationGuideVersion
       name
       owner
       publicIP
@@ -63,6 +67,8 @@ export const onUpdateServer = /* GraphQL */ `
       ecsTaskName
       encoding
       id
+      implementationGuide
+      implementationGuideVersion
       name
       owner
       publicIP

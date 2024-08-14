@@ -5,6 +5,7 @@ import {
   Button,
   Flex,
   Grid,
+  SelectField,
   TextAreaField,
   TextField,
 } from "@aws-amplify/ui-react";
@@ -29,6 +30,8 @@ export default function ServerCreateForm(props) {
     publicIP: "",
     encoding: "",
     version: "",
+    implementationGuide: "",
+    implementationGuideVersion: "",
     userEmail: "",
     name: "",
     description: "",
@@ -42,6 +45,11 @@ export default function ServerCreateForm(props) {
   const [publicIP, setPublicIP] = React.useState(initialValues.publicIP);
   const [encoding, setEncoding] = React.useState(initialValues.encoding);
   const [version, setVersion] = React.useState(initialValues.version);
+  const [implementationGuide, setImplementationGuide] = React.useState(
+    initialValues.implementationGuide
+  );
+  const [implementationGuideVersion, setImplementationGuideVersion] =
+    React.useState(initialValues.implementationGuideVersion);
   const [userEmail, setUserEmail] = React.useState(initialValues.userEmail);
   const [name, setName] = React.useState(initialValues.name);
   const [description, setDescription] = React.useState(
@@ -58,6 +66,8 @@ export default function ServerCreateForm(props) {
     setPublicIP(initialValues.publicIP);
     setEncoding(initialValues.encoding);
     setVersion(initialValues.version);
+    setImplementationGuide(initialValues.implementationGuide);
+    setImplementationGuideVersion(initialValues.implementationGuideVersion);
     setUserEmail(initialValues.userEmail);
     setName(initialValues.name);
     setDescription(initialValues.description);
@@ -71,6 +81,8 @@ export default function ServerCreateForm(props) {
     publicIP: [],
     encoding: [{ type: "Required" }],
     version: [{ type: "Required" }],
+    implementationGuide: [],
+    implementationGuideVersion: [],
     userEmail: [{ type: "Required" }, { type: "Email" }],
     name: [{ type: "Required" }],
     description: [],
@@ -108,6 +120,8 @@ export default function ServerCreateForm(props) {
           publicIP,
           encoding,
           version,
+          implementationGuide,
+          implementationGuideVersion,
           userEmail,
           name,
           description,
@@ -179,6 +193,8 @@ export default function ServerCreateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,
@@ -212,6 +228,8 @@ export default function ServerCreateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,
@@ -245,6 +263,8 @@ export default function ServerCreateForm(props) {
               publicIP: value,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,
@@ -264,7 +284,7 @@ export default function ServerCreateForm(props) {
         hasError={errors.publicIP?.hasError}
         {...getOverrideProps(overrides, "publicIP")}
       ></TextField>
-      <TextField
+      <SelectField
         label="Encoding"
         isRequired={true}
         isReadOnly={false}
@@ -278,6 +298,8 @@ export default function ServerCreateForm(props) {
               publicIP,
               encoding: value,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,
@@ -296,8 +318,11 @@ export default function ServerCreateForm(props) {
         errorMessage={errors.encoding?.errorMessage}
         hasError={errors.encoding?.hasError}
         {...getOverrideProps(overrides, "encoding")}
-      ></TextField>
-      <TextField
+      >
+        <option children="JSON" value="JSON" {...getOverrideProps(overrides, "statusOption0")}></option>
+        <option children="XML" value="XML" {...getOverrideProps(overrides, "statusOption1")}></option>
+      </SelectField>
+      <SelectField
         label="Version"
         isRequired={true}
         isReadOnly={false}
@@ -311,6 +336,8 @@ export default function ServerCreateForm(props) {
               publicIP,
               encoding,
               version: value,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,
@@ -329,7 +356,96 @@ export default function ServerCreateForm(props) {
         errorMessage={errors.version?.errorMessage}
         hasError={errors.version?.hasError}
         {...getOverrideProps(overrides, "version")}
-      ></TextField>
+      >
+        <option children="DSTU2" value="DSTU2" {...getOverrideProps(overrides, "statusOption0")}></option>
+        <option children="DSTU3" value="DSTU3" {...getOverrideProps(overrides, "statusOption1")}></option>
+        <option children="R4" value="R4" {...getOverrideProps(overrides, "statusOption2")}></option>
+        <option children="R5" value="R5" {...getOverrideProps(overrides, "statusOption3")}></option>
+        
+      </SelectField>
+      <SelectField
+        label="Implementation guide"
+        isRequired={false}
+        isReadOnly={false}
+        value={implementationGuide}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              configuration,
+              baseUrl,
+              publicIP,
+              encoding,
+              version,
+              implementationGuide: value,
+              implementationGuideVersion,
+              userEmail,
+              name,
+              description,
+              ecsTaskName,
+              status,
+            };
+            const result = onChange(modelFields);
+            value = result?.implementationGuide ?? value;
+          }
+          if (errors.implementationGuide?.hasError) {
+            runValidationTasks("implementationGuide", value);
+          }
+          setImplementationGuide(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("implementationGuide", implementationGuide)
+        }
+        errorMessage={errors.implementationGuide?.errorMessage}
+        hasError={errors.implementationGuide?.hasError}
+        {...getOverrideProps(overrides, "implementationGuide")}
+      >
+        <option children="None" value="" {...getOverrideProps(overrides, "statusOption0")}></option>
+        <option children="US Core" value="hl7.fhir.us.core" {...getOverrideProps(overrides, "statusOption1")}></option>
+      </SelectField>
+      <SelectField
+        label="Implementation guide version"
+        isRequired={false}
+        isReadOnly={false}
+        value={implementationGuideVersion}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              configuration,
+              baseUrl,
+              publicIP,
+              encoding,
+              version,
+              implementationGuide,
+              implementationGuideVersion: value,
+              userEmail,
+              name,
+              description,
+              ecsTaskName,
+              status,
+            };
+            const result = onChange(modelFields);
+            value = result?.implementationGuideVersion ?? value;
+          }
+          if (errors.implementationGuideVersion?.hasError) {
+            runValidationTasks("implementationGuideVersion", value);
+          }
+          setImplementationGuideVersion(value);
+        }}
+        onBlur={() =>
+          runValidationTasks(
+            "implementationGuideVersion",
+            implementationGuideVersion
+          )
+        }
+        errorMessage={errors.implementationGuideVersion?.errorMessage}
+        hasError={errors.implementationGuideVersion?.hasError}
+        {...getOverrideProps(overrides, "implementationGuideVersion")}
+      >
+        <option children="None" value="" {...getOverrideProps(overrides, "statusOption0")}></option>
+        <option children="7.0.0" value="7.0.0" {...getOverrideProps(overrides, "statusOption1")}></option>
+      </SelectField>
       <TextField
         label="User email"
         isRequired={true}
@@ -344,6 +460,8 @@ export default function ServerCreateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail: value,
               name,
               description,
@@ -377,6 +495,8 @@ export default function ServerCreateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name: value,
               description,
@@ -410,6 +530,8 @@ export default function ServerCreateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description: value,
@@ -443,6 +565,8 @@ export default function ServerCreateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,
@@ -476,6 +600,8 @@ export default function ServerCreateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,

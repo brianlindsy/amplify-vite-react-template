@@ -31,6 +31,8 @@ export default function ServerUpdateForm(props) {
     publicIP: "",
     encoding: "",
     version: "",
+    implementationGuide: "",
+    implementationGuideVersion: "",
     userEmail: "",
     name: "",
     description: "",
@@ -44,6 +46,11 @@ export default function ServerUpdateForm(props) {
   const [publicIP, setPublicIP] = React.useState(initialValues.publicIP);
   const [encoding, setEncoding] = React.useState(initialValues.encoding);
   const [version, setVersion] = React.useState(initialValues.version);
+  const [implementationGuide, setImplementationGuide] = React.useState(
+    initialValues.implementationGuide
+  );
+  const [implementationGuideVersion, setImplementationGuideVersion] =
+    React.useState(initialValues.implementationGuideVersion);
   const [userEmail, setUserEmail] = React.useState(initialValues.userEmail);
   const [name, setName] = React.useState(initialValues.name);
   const [description, setDescription] = React.useState(
@@ -68,6 +75,8 @@ export default function ServerUpdateForm(props) {
     setPublicIP(cleanValues.publicIP);
     setEncoding(cleanValues.encoding);
     setVersion(cleanValues.version);
+    setImplementationGuide(cleanValues.implementationGuide);
+    setImplementationGuideVersion(cleanValues.implementationGuideVersion);
     setUserEmail(cleanValues.userEmail);
     setName(cleanValues.name);
     setDescription(cleanValues.description);
@@ -97,6 +106,8 @@ export default function ServerUpdateForm(props) {
     publicIP: [],
     encoding: [{ type: "Required" }],
     version: [{ type: "Required" }],
+    implementationGuide: [{ type: "Required" }],
+    implementationGuideVersion: [{ type: "Required" }],
     userEmail: [{ type: "Required" }, { type: "Email" }],
     name: [{ type: "Required" }],
     description: [],
@@ -134,6 +145,8 @@ export default function ServerUpdateForm(props) {
           publicIP: publicIP ?? null,
           encoding,
           version,
+          implementationGuide,
+          implementationGuideVersion,
           userEmail,
           name,
           description: description ?? null,
@@ -204,6 +217,8 @@ export default function ServerUpdateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,
@@ -237,6 +252,8 @@ export default function ServerUpdateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,
@@ -270,6 +287,8 @@ export default function ServerUpdateForm(props) {
               publicIP: value,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,
@@ -303,6 +322,8 @@ export default function ServerUpdateForm(props) {
               publicIP,
               encoding: value,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,
@@ -336,6 +357,8 @@ export default function ServerUpdateForm(props) {
               publicIP,
               encoding,
               version: value,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,
@@ -356,6 +379,83 @@ export default function ServerUpdateForm(props) {
         {...getOverrideProps(overrides, "version")}
       ></TextField>
       <TextField
+        label="Implementation guide"
+        isRequired={true}
+        isReadOnly={false}
+        value={implementationGuide}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              configuration,
+              baseUrl,
+              publicIP,
+              encoding,
+              version,
+              implementationGuide: value,
+              implementationGuideVersion,
+              userEmail,
+              name,
+              description,
+              ecsTaskName,
+              status,
+            };
+            const result = onChange(modelFields);
+            value = result?.implementationGuide ?? value;
+          }
+          if (errors.implementationGuide?.hasError) {
+            runValidationTasks("implementationGuide", value);
+          }
+          setImplementationGuide(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("implementationGuide", implementationGuide)
+        }
+        errorMessage={errors.implementationGuide?.errorMessage}
+        hasError={errors.implementationGuide?.hasError}
+        {...getOverrideProps(overrides, "implementationGuide")}
+      ></TextField>
+      <TextField
+        label="Implementation guide version"
+        isRequired={true}
+        isReadOnly={false}
+        value={implementationGuideVersion}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              configuration,
+              baseUrl,
+              publicIP,
+              encoding,
+              version,
+              implementationGuide,
+              implementationGuideVersion: value,
+              userEmail,
+              name,
+              description,
+              ecsTaskName,
+              status,
+            };
+            const result = onChange(modelFields);
+            value = result?.implementationGuideVersion ?? value;
+          }
+          if (errors.implementationGuideVersion?.hasError) {
+            runValidationTasks("implementationGuideVersion", value);
+          }
+          setImplementationGuideVersion(value);
+        }}
+        onBlur={() =>
+          runValidationTasks(
+            "implementationGuideVersion",
+            implementationGuideVersion
+          )
+        }
+        errorMessage={errors.implementationGuideVersion?.errorMessage}
+        hasError={errors.implementationGuideVersion?.hasError}
+        {...getOverrideProps(overrides, "implementationGuideVersion")}
+      ></TextField>
+      <TextField
         label="User email"
         isRequired={true}
         isReadOnly={false}
@@ -369,6 +469,8 @@ export default function ServerUpdateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail: value,
               name,
               description,
@@ -402,6 +504,8 @@ export default function ServerUpdateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name: value,
               description,
@@ -435,6 +539,8 @@ export default function ServerUpdateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description: value,
@@ -468,6 +574,8 @@ export default function ServerUpdateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,
@@ -501,6 +609,8 @@ export default function ServerUpdateForm(props) {
               publicIP,
               encoding,
               version,
+              implementationGuide,
+              implementationGuideVersion,
               userEmail,
               name,
               description,

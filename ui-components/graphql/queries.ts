@@ -12,6 +12,8 @@ export const getServer = /* GraphQL */ `
       ecsTaskName
       encoding
       id
+      implementationGuide
+      implementationGuideVersion
       name
       owner
       publicIP
@@ -38,6 +40,8 @@ export const listServers = /* GraphQL */ `
         ecsTaskName
         encoding
         id
+        implementationGuide
+        implementationGuideVersion
         name
         owner
         publicIP
