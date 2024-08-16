@@ -28,8 +28,8 @@ export default function ServerCreateForm(props) {
     configuration: "",
     baseUrl: "",
     publicIP: "",
-    encoding: "",
-    version: "",
+    encoding: "JSON",
+    version: "R4",
     implementationGuide: "",
     implementationGuideVersion: "",
     userEmail: "",
@@ -37,6 +37,7 @@ export default function ServerCreateForm(props) {
     description: "",
     ecsTaskName: "",
     status: "",
+    insertTestPatients: "true"
   };
   const [configuration, setConfiguration] = React.useState(
     initialValues.configuration
@@ -59,6 +60,7 @@ export default function ServerCreateForm(props) {
     initialValues.ecsTaskName
   );
   const [status, setStatus] = React.useState(initialValues.status);
+  const [insertTestPatients, setInsertTestPatients] = React.useState(initialValues.insertTestPatients);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setConfiguration(initialValues.configuration);
@@ -73,6 +75,7 @@ export default function ServerCreateForm(props) {
     setDescription(initialValues.description);
     setEcsTaskName(initialValues.ecsTaskName);
     setStatus(initialValues.status);
+    setInsertTestPatients(initialValues.insertTestPatients);
     setErrors({});
   };
   const validations = {
@@ -88,6 +91,7 @@ export default function ServerCreateForm(props) {
     description: [],
     ecsTaskName: [],
     status: [],
+    insertTestPatients: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -127,6 +131,7 @@ export default function ServerCreateForm(props) {
           description,
           ecsTaskName,
           status,
+          insertTestPatients,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -200,6 +205,7 @@ export default function ServerCreateForm(props) {
               description,
               ecsTaskName,
               status,
+              insertTestPatients,
             };
             const result = onChange(modelFields);
             value = result?.configuration ?? value;
@@ -235,6 +241,7 @@ export default function ServerCreateForm(props) {
               description,
               ecsTaskName,
               status,
+              insertTestPatients,
             };
             const result = onChange(modelFields);
             value = result?.baseUrl ?? value;
@@ -270,6 +277,7 @@ export default function ServerCreateForm(props) {
               description,
               ecsTaskName,
               status,
+              insertTestPatients,
             };
             const result = onChange(modelFields);
             value = result?.publicIP ?? value;
@@ -305,6 +313,7 @@ export default function ServerCreateForm(props) {
               description,
               ecsTaskName,
               status,
+              insertTestPatients,
             };
             const result = onChange(modelFields);
             value = result?.encoding ?? value;
@@ -320,7 +329,7 @@ export default function ServerCreateForm(props) {
         {...getOverrideProps(overrides, "encoding")}
       >
         <option children="JSON" value="JSON" {...getOverrideProps(overrides, "statusOption0")}></option>
-        <option children="XML" value="XML" {...getOverrideProps(overrides, "statusOption1")}></option>
+        <option disabled={true} children="XML" value="XML" {...getOverrideProps(overrides, "statusOption1")}></option>
       </SelectField>
       <SelectField
         label="Version"
@@ -343,6 +352,7 @@ export default function ServerCreateForm(props) {
               description,
               ecsTaskName,
               status,
+              insertTestPatients,
             };
             const result = onChange(modelFields);
             value = result?.version ?? value;
@@ -356,12 +366,11 @@ export default function ServerCreateForm(props) {
         errorMessage={errors.version?.errorMessage}
         hasError={errors.version?.hasError}
         {...getOverrideProps(overrides, "version")}
-      >
+      > 
+        <option children="R4" value="R4" {...getOverrideProps(overrides, "statusOption2")}></option>
         <option children="DSTU2" value="DSTU2" {...getOverrideProps(overrides, "statusOption0")}></option>
         <option children="DSTU3" value="DSTU3" {...getOverrideProps(overrides, "statusOption1")}></option>
-        <option children="R4" value="R4" {...getOverrideProps(overrides, "statusOption2")}></option>
         <option children="R5" value="R5" {...getOverrideProps(overrides, "statusOption3")}></option>
-        
       </SelectField>
       <SelectField
         label="Implementation guide"
@@ -384,6 +393,7 @@ export default function ServerCreateForm(props) {
               description,
               ecsTaskName,
               status,
+              insertTestPatients,
             };
             const result = onChange(modelFields);
             value = result?.implementationGuide ?? value;
@@ -401,7 +411,7 @@ export default function ServerCreateForm(props) {
         {...getOverrideProps(overrides, "implementationGuide")}
       >
         <option children="None" value="" {...getOverrideProps(overrides, "statusOption0")}></option>
-        <option children="US Core" value="hl7.fhir.us.core" {...getOverrideProps(overrides, "statusOption1")}></option>
+        <option disabled={true} children="US Core" value="hl7.fhir.us.core" {...getOverrideProps(overrides, "statusOption1")}></option>
       </SelectField>
       <SelectField
         label="Implementation guide version"
@@ -424,6 +434,7 @@ export default function ServerCreateForm(props) {
               description,
               ecsTaskName,
               status,
+              insertTestPatients,
             };
             const result = onChange(modelFields);
             value = result?.implementationGuideVersion ?? value;
@@ -444,7 +455,51 @@ export default function ServerCreateForm(props) {
         {...getOverrideProps(overrides, "implementationGuideVersion")}
       >
         <option children="None" value="" {...getOverrideProps(overrides, "statusOption0")}></option>
-        <option children="7.0.0" value="7.0.0" {...getOverrideProps(overrides, "statusOption1")}></option>
+        <option disabled={true} children="7.0.0" value="7.0.0" {...getOverrideProps(overrides, "statusOption1")}></option>
+      </SelectField>
+      <SelectField
+        label="Insert test patients?"
+        isRequired={false}
+        isReadOnly={false}
+        value={insertTestPatients}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              configuration,
+              baseUrl,
+              publicIP,
+              encoding,
+              version,
+              implementationGuide,
+              implementationGuideVersion,
+              userEmail,
+              name,
+              description,
+              ecsTaskName,
+              status,
+              insertTestPatients: value
+            };
+            const result = onChange(modelFields);
+            value = result?.insertTestPatients ?? value;
+          }
+          if (errors.insertTestPatients?.hasError) {
+            runValidationTasks("insertTestPatients", value);
+          }
+          setInsertTestPatients(value);
+        }}
+        onBlur={() =>
+          runValidationTasks(
+            "insertTestPatients",
+            insertTestPatients
+          )
+        }
+        errorMessage={errors.insertTestPatients?.errorMessage}
+        hasError={errors.insertTestPatients?.hasError}
+        {...getOverrideProps(overrides, "insertTestPatients")}
+      >
+        <option children="Yes" value="true" {...getOverrideProps(overrides, "statusOption0")}></option>
+        <option children="No" value="false" {...getOverrideProps(overrides, "statusOption1")}></option>
       </SelectField>
       <TextField
         label="User email"
@@ -467,6 +522,7 @@ export default function ServerCreateForm(props) {
               description,
               ecsTaskName,
               status,
+              insertTestPatients,
             };
             const result = onChange(modelFields);
             value = result?.userEmail ?? value;
@@ -502,6 +558,7 @@ export default function ServerCreateForm(props) {
               description,
               ecsTaskName,
               status,
+              insertTestPatients,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -537,6 +594,7 @@ export default function ServerCreateForm(props) {
               description: value,
               ecsTaskName,
               status,
+              insertTestPatients,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -572,6 +630,7 @@ export default function ServerCreateForm(props) {
               description,
               ecsTaskName: value,
               status,
+              insertTestPatients,
             };
             const result = onChange(modelFields);
             value = result?.ecsTaskName ?? value;
@@ -607,6 +666,7 @@ export default function ServerCreateForm(props) {
               description,
               ecsTaskName,
               status: value,
+              insertTestPatients,
             };
             const result = onChange(modelFields);
             value = result?.status ?? value;

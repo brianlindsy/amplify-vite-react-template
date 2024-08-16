@@ -15,6 +15,7 @@ const schema = a.schema({
       description: a.string(),
       ecsTaskName: a.string(), // ECS Task Name
       status: a.string(),
+      insertTestPatients: a.string(),
     })
   .authorization(allow => [allow.owner()])
 });
