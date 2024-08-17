@@ -1,6 +1,5 @@
 import { Button } from "@aws-amplify/ui-react";
 import React from "react";
-import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 
 interface ServerDetailsProps {
@@ -12,24 +11,6 @@ interface ServerDetailsProps {
 const ServerDetails: React.FC<ServerDetailsProps> = ({ server, handleBackFromServer, handleDelete }) => {
 
     const serverUrl = "https://api.chinotechnologies.com/server/" + server.id + "/metadata?_format=json";
-
-    const checkStatus = async () => {
-        var statusText = ""
-        await fetch(serverUrl)
-        .then((response) => {
-            statusText = response.statusText;
-        })
-
-        return statusText
-    }
-
-    const [serverStatus, setServerStatus] = React.useState("")
-
-    useEffect(() => {
-        checkStatus().then((status) => {
-            setServerStatus(status)
-        })
-    })
 
     return (
         <div style={styles.container}>
@@ -57,7 +38,10 @@ const ServerDetails: React.FC<ServerDetailsProps> = ({ server, handleBackFromSer
                 <strong>Description:</strong> {server.description}
             </div>
             <div style={styles.detail}>
-                <strong>Status:</strong> {serverStatus}
+                <strong>Status:</strong> {server.serverStatus}
+            </div>
+            <div style={styles.detail}>
+                <strong>Test patients? </strong> {server.insertTestPatients === 'true' ? "Yes" : "No"}
             </div>
         </div>
     );

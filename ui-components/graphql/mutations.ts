@@ -20,7 +20,7 @@ export const createServer = /* GraphQL */ `
       name
       owner
       publicIP
-      status
+      serverStatus
       updatedAt
       userEmail
       version
@@ -46,7 +46,7 @@ export const deleteServer = /* GraphQL */ `
       name
       owner
       publicIP
-      status
+      serverStatus
       updatedAt
       userEmail
       version
@@ -72,7 +72,7 @@ export const updateServer = /* GraphQL */ `
       name
       owner
       publicIP
-      status
+      serverStatus
       updatedAt
       userEmail
       version

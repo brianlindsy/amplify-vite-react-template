@@ -17,7 +17,7 @@ export const getServer = /* GraphQL */ `
       name
       owner
       publicIP
-      status
+      serverStatus
       updatedAt
       userEmail
       version
@@ -45,7 +45,7 @@ export const listServers = /* GraphQL */ `
         name
         owner
         publicIP
-        status
+        serverStatus
         updatedAt
         userEmail
         version

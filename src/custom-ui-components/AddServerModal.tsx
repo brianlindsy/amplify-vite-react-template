@@ -5,7 +5,6 @@ import ServerCreateForm from '../../ui-components/ServerCreateForm';
   interface AddServerModalProps {
     show: boolean;
     handleClose: () => void;
-    userEmail: string;
   }
 
   const AddServerModal: React.FC<AddServerModalProps> = ({ show, handleClose }) => {
@@ -30,13 +29,20 @@ import ServerCreateForm from '../../ui-components/ServerCreateForm';
                 style: { display: 'none' },
                 labelHidden: true
               },
-              status: {
+              serverStatus: {
                 style: { display: 'none' },
                 labelHidden: true
               },
               configuration: {
                 style: { display: 'none' },
                 labelHidden: true
+              },
+              userEmail: {
+                style: { display: 'none' },
+                labelHidden: true,
+              },
+              name: {
+                label: "Server Name"
               }
             }} onSuccess={handleClose} />
           </Modal.Body>

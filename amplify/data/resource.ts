@@ -10,11 +10,11 @@ const schema = a.schema({
       version: a.string().required(), // R4 (4.0.1)
       implementationGuide: a.string(), // US CORE 7.0.0
       implementationGuideVersion: a.string(), // 7.0.0
-      userEmail: a.email().required(),
+      userEmail: a.email(),
       name: a.string().required(), // Test FHIR Server
       description: a.string(),
       ecsTaskName: a.string(), // ECS Task Name
-      status: a.string(),
+      serverStatus: a.string(),
       insertTestPatients: a.string(),
     })
   .authorization(allow => [allow.owner()])
