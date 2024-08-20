@@ -4,6 +4,7 @@ import type { Schema } from "../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import AddServerModal from './AddServerModal';
 import ServerDetails from './ServerDetails';
+import Alert from 'react-bootstrap/Alert';
 
 const client = generateClient<Schema>();
 
@@ -19,7 +20,7 @@ const ServerList = () => {
       client.models.Server.observeQuery().subscribe({
         next: (data) => setServers([...data.items]),
       });
-    }, []);
+    }, [servers]);
 
     const handleDelete = (id: any) => {
       client.models.Server.delete({id})
@@ -40,6 +41,7 @@ const ServerList = () => {
 
   return (
     <Container style={{padding: "10px"}}>
+      <Alert variant={'danger'}>Never add PHI or PII to any servers you create. These are for testing purposes ONLY, not for real or production data. These servers are NOT HIPAA compliant.</Alert>
       {servers.length === 0 ?
         <Button onClick={addServer}>Add New Server</Button> : null
       }

@@ -9,6 +9,7 @@ import {
   SelectField,
   TextAreaField,
   TextField,
+  Text
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
@@ -94,6 +95,8 @@ export default function ServerCreateForm(props) {
     serverStatus: [],
     insertTestPatients: [],
   };
+  const disableIGOption = version !== "R4" ? true : false;
+  const disableUSCoreVersionOptions = ((implementationGuide !== "hl7.fhir.us.core" && version !== "R4") || (implementationGuide === "")) ? true : false;
 
   React.useEffect(() => {
     async function getUser() {
@@ -380,7 +383,7 @@ export default function ServerCreateForm(props) {
         <option children="R4" value="R4" {...getOverrideProps(overrides, "serverStatusOption2")}></option>
         <option children="DSTU2" value="DSTU2" {...getOverrideProps(overrides, "serverStatusOption0")}></option>
         <option children="DSTU3" value="DSTU3" {...getOverrideProps(overrides, "serverStatusOption1")}></option>
-        <option children="R5" value="R5" {...getOverrideProps(overrides, "serverStatusOption3")}></option>
+        <option disabled={true} children="R5" value="R5" {...getOverrideProps(overrides, "serverStatusOption3")}></option>
       </SelectField>
       <SelectField
         label="Implementation guide"
@@ -421,7 +424,7 @@ export default function ServerCreateForm(props) {
         {...getOverrideProps(overrides, "implementationGuide")}
       >
         <option children="None" value="" {...getOverrideProps(overrides, "serverStatusOption0")}></option>
-        <option disabled={true} children="US Core" value="hl7.fhir.us.core" {...getOverrideProps(overrides, "serverStatusOption1")}></option>
+        <option disabled={disableIGOption} children="US Core" value="hl7.fhir.us.core" {...getOverrideProps(overrides, "serverStatusOption1")}></option>
       </SelectField>
       <SelectField
         label="Implementation guide version"
@@ -465,7 +468,10 @@ export default function ServerCreateForm(props) {
         {...getOverrideProps(overrides, "implementationGuideVersion")}
       >
         <option children="None" value="" {...getOverrideProps(overrides, "serverStatusOption0")}></option>
-        <option disabled={true} children="7.0.0" value="7.0.0" {...getOverrideProps(overrides, "serverStatusOption1")}></option>
+        <option disabled={disableUSCoreVersionOptions} children="6.1.0" value="6.1.0" {...getOverrideProps(overrides, "serverStatusOption1")}></option>
+        <option disabled={disableUSCoreVersionOptions} children="5.0.1" value="5.0.1" {...getOverrideProps(overrides, "serverStatusOption2")}></option>
+        <option disabled={disableUSCoreVersionOptions} children="4.0.0" value="4.0.0" {...getOverrideProps(overrides, "serverStatusOption3")}></option>
+        <option disabled={disableUSCoreVersionOptions} children="3.1.1" value="3.1.1" {...getOverrideProps(overrides, "serverStatusOption4")}></option>
       </SelectField>
       <SelectField
         label="Insert test patients?"
@@ -511,6 +517,7 @@ export default function ServerCreateForm(props) {
         <option children="Yes" value="true" {...getOverrideProps(overrides, "serverStatusOption0")}></option>
         <option children="No" value="false" {...getOverrideProps(overrides, "serverStatusOption1")}></option>
       </SelectField>
+      <Text>This will include 5 randomly generated test patients in the server.</Text>
       <TextField
         label="User email"
         isRequired={false}

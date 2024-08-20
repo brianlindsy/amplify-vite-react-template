@@ -16,6 +16,7 @@ const ServerDetails: React.FC<ServerDetailsProps> = ({ server, handleBackFromSer
         <div style={styles.container}>
             <Container>
                 <h2>Server Details</h2>
+                <h5>Server may take up to 5 minutes to start and insert test patients, refresh this page to check status.</h5>
                 <Button onClick={handleBackFromServer}>Back</Button>
                 <Button onClick={handleDelete}>Delete</Button>
             </Container>
@@ -28,15 +29,27 @@ const ServerDetails: React.FC<ServerDetailsProps> = ({ server, handleBackFromSer
             <div style={styles.detail}>
                 <strong>Version:</strong> {server.version}
             </div>
+            {server.implementationGuide !== null ?
+            <div style={styles.detail}>
+                <strong>Implementation Guide:</strong> {server.implementationGuide}
+            </div> : null
+            }
+            {server.implementationGuideVersion !== null ?
+            <div style={styles.detail}>
+                <strong>Implementation Guide Version:</strong> {server.implementationGuideVersion}
+            </div> : null
+            }
             <div style={styles.detail}>
                 <strong>User Email:</strong> {server.userEmail}
             </div>
             <div style={styles.detail}>
                 <strong>Name:</strong> {server.name}
             </div>
+            {server.description !== null ?
             <div style={styles.detail}>
                 <strong>Description:</strong> {server.description}
-            </div>
+            </div> : null
+            }
             <div style={styles.detail}>
                 <strong>Status:</strong> {server.serverStatus}
             </div>
